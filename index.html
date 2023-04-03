@@ -1,0 +1,255 @@
+<html>
+
+<head>
+    <title>Eduah's Kwesiada Frankaa</title>
+    <style type="text/css">
+        table {
+            text-align: center;
+            border-left-style: hidden;
+        }
+
+        input#usname {
+            font-size: 18px;
+            font-family: Georgia, Times New Roman, serif;
+            font-weight: normal;
+            color: #90070b;
+            text-align: center;
+            border: 5px double;
+        }
+
+        input#round {
+            width: 100px;
+            /*same as the height*/
+            height: 100px;
+            /*same as the width*/
+            background-color: #ffffff;
+            border: 1px solid #ff0000;
+            /*same colour as the background*/
+            color: #fff;
+            font-size: 1.6em;
+            /*set the border-radius at half the size of the width and height*/
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            /*give the button a small drop shadow*/
+            -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .75);
+            -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .75);
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, .75);
+        }
+
+        input#round:hover {
+            background: #0a0a0a;
+            border: 1px solid #c20b0b;
+            /*reduce the size of the shadow to give a pushed effect*/
+            -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, .75);
+            -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, .75);
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, .75);
+        }
+
+        body {
+            color: #444;
+        }
+
+        input#reset {
+            display: block;
+            font-size: 12px;
+            text-decoration: none !important;
+            font-family: Helvetica, Arial, sans serif;
+            padding: 3px 30px;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            box-shadow: inset 0px 0px 2px #fff;
+            -o-box-shadow: inset 0px 0px 2px #fff;
+            -webkit-box-shadow: inset 0px 0px 2px #fff;
+            -moz-box-shadow: inset 0px 0px 2px #fff;
+            float: right;
+
+            color: #fff;
+            border: 1px solid #4d4d4d;
+            background-image: -moz-linear-gradient(#656565, #454545);
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#454545), to(#656565));
+            background-image: -webkit-linear-gradient(#656565, #454545);
+            background-image: -o-linear-gradient(#656565, #454545);
+            text-shadow: 1px 1px 1px #6d6d6d;
+            background-color: #454545;
+        }
+
+        input#reset:hover {
+            border: 1px solid #363636;
+            background-image: -moz-linear-gradient(#454545, #656565);
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#656565), to(#454545));
+            background-image: -webkit-linear-gradient(#454545, #656565);
+            background-image: -o-linear-gradient(#454545, #656565);
+            background-color: #656565;
+        }
+
+        input#reset::active {
+            border: 1px solid #000;
+        }
+    </style>
+    <script type="text/javascript">
+        var textobj = document.getElementsByName('username');
+
+        pos = ["", "", "", "", "", "", "", "", ""];
+        player = ["Player 1", "Player 2"];
+        colr = ["#90070b", "#060"];
+        var pl = 0
+        var tomove;
+        var tim = true
+        var plc = 0
+        var dice = 0;
+
+        function btclck(obj) {
+
+
+            plc = parseInt(obj.name);
+
+            if (dice < 6) {
+                if (pos[plc] != "") {
+                    return;
+                }
+                pos[plc] = player[pl];
+                obj.style.background = colr[pl];
+                dice = dice + 1;
+
+                fin()
+
+                return;
+            }
+
+            again(obj);
+
+        }
+
+        function nextstep() {
+            if (pl == 0) {
+                pl = 1;
+            }
+            else {
+                pl = 0;
+            }
+
+            textobj.item(0).value = player[pl] + "'s turn";
+            textobj.item(0).style.color = colr[pl];
+            //alert(player[pl]);
+        }
+
+        function fin() {
+            if (win(player[pl])) {
+                alert("Congratulations " + player[pl] + "!!! Won");
+                textobj.item(0).value = "Congratulations " + player[pl] + "!!! Won";
+                return;
+            }
+            nextstep();
+        }
+
+        function win(a) {
+            if (pos[0] == a && pos[1] == a && pos[2] == a) {
+                return true;
+            }
+
+            if (pos[3] == a && pos[4] == a && pos[5] == a) {
+                return true;
+            }
+
+            if (pos[6] == a && pos[7] == a && pos[8] == a) {
+                return true;
+            }
+
+            if (pos[0] == a && pos[4] == a && pos[8] == a) {
+                return true;
+            }
+
+            if (pos[0] == a && pos[3] == a && pos[6] == a) {
+                return true;
+            }
+
+            if (pos[1] == a && pos[4] == a && pos[7] == a) {
+                return true;
+            }
+
+            if (pos[2] == a && pos[5] == a && pos[8] == a) {
+                return true;
+            }
+
+            if (pos[2] == a && pos[4] == a && pos[6] == a) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function again(sender) {
+            if (tim == true) {
+                if (player[pl] == pos[plc]) {
+                    sender.style.background = "#a0a0a0";
+                    tomove = sender;
+                    tim = false;
+                }
+                return;
+            }
+            else {
+                var oplc = parseInt(tomove.name)
+                if (pos[plc] == "") {
+                    if ((plc == 2 && oplc == 3) || (plc == 3 && oplc == 2) || (plc == 5 && oplc == 6) || (plc == 6 && oplc == 5)) {
+                        return;
+                    }
+                    if ((plc + 1) == (oplc - 2) || (plc + 1) == (oplc + 4) || (plc + 1) == (oplc + 2) || (plc + 1) == oplc || plc == 4 || oplc == 4) {
+                        pos[plc] = player[pl];
+                        pos[oplc] = "";
+                        tomove.style.background = "#FFFFFF";
+                        sender.style.background = colr[pl];
+                        tim = true;
+                        fin();
+                    }
+                }
+                else if (player[pl] == pos[plc]) {
+                    tomove.style.background = colr[pl];
+                    tim = true;
+                    again(sender);
+                    return;
+                }
+                return;
+            }
+            return;
+        }
+
+        function hold(obj) {
+            if (textobj) {
+                textobj.item(0).value = obj.name;
+            }
+
+            obj.style.background = "#000";
+        }
+
+    </script>
+</head>
+
+<body>
+    <h4 align="center">
+        <marquee behavior="alternate" direction="left" scrollamount="10"
+            style="left: 20%; position: absolute; right: 20%; top: 0%;">
+            <input id="usname" maxlength="80" name="username" size="40" type="text" value="Player 1" />
+        </marquee>
+        <input id="reset" name="Reset" onclick="location.reload(true)" type="button" value="Reset" />
+    </h4>
+    <table align="center" style="height: 500px; width: 500px;">
+        <tr>
+            <td> <input id="round" name="0" onclick="btclck(this)" type="button" value="" /> </td>
+            <td> <input id="round" name="1" onclick="btclck(this)" type="button" value="" /> </td>
+            <td> <input id="round" name="2" onclick="btclck(this)" type="button" value="" /> </td>
+        </tr>
+        <tr>
+            <td> <input id="round" name="3" onclick="btclck(this)" type="button" value="" /> </td>
+            <td> <input id="round" name="4" onclick="btclck(this)" type="button" value="" /> </td>
+            <td> <input id="round" name="5" onclick="btclck(this)" type="button" value="" /> </td>
+        </tr>
+        <tr>
+            <td> <input id="round" name="6" onclick="btclck(this)" type="button" value="" /> </td>
+            <td> <input id="round" name="7" onclick="btclck(this)" type="button" value="" /> </td>
+            <td> <input id="round" name="8" onclick="btclck(this)" type="button" value="" /> </td>
+        </tr>
+    </table>
+</body>
+
+</html>
